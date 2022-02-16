@@ -1,8 +1,12 @@
 public class LinearSystem {
     private Matrix coefficients;
     private Matrix freeMembers;
+    private final int iterations;
+    private final double accuracy;
 
-    public LinearSystem(double[][] coefs, double[] freeMembrs, int unknownNum, int freeNum) {
+    public LinearSystem(double[][] coefs, double[] freeMembrs, int unknownNum, int freeNum, int iterations, double accuracy) {
+        this.iterations = iterations;
+        this.accuracy = accuracy;
         coefficients = new Matrix(coefs, unknownNum, freeNum);
         freeMembers = new Matrix(freeNum, 1);
         try {
@@ -14,7 +18,7 @@ public class LinearSystem {
         }
     }
 
-    public void solveUsingGaussSeidelMethod(double accuracy, int iterCount) {
+    public void solveUsingGaussSeidelMethod() {
         try {
             int [] rowOrder = coefficients.checkDiagonal();
             if (rowOrder == null) throw new Exception("cant solve");
@@ -45,7 +49,7 @@ public class LinearSystem {
             double delta;
             int k = 0;
             do {
-                if (k > iterCount) {
+                if (k > iterations) {
                     System.out.println("Итерации расходятся");
                     return;
                 }

@@ -2,7 +2,7 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-        double[][] elems1 = {{1, 2, 1}, {0, 1, 2}};
+        /*double[][] elems1 = {{1, 2, 1}, {0, 1, 2}};
         double[][] elems2 = {{1, 0}, {0, 1}, {1, 1}};
         double[][] elem1 = {{2, 2, 10}, {10, 1, 1}, {2, 10, 1}};
         double[] free = {14, 12, 13};
@@ -18,7 +18,11 @@ public class Main {
             system.solveUsingGaussSeidelMethod(0.03, 10);
         } catch (Exception e) {
             System.err.println(e.getMessage());
-        }
+        }*/
 
+        UserInteraction interaction = new UserInteraction();
+        interaction.interact();
     }
+
+
 }
