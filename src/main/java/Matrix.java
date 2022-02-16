@@ -1,5 +1,5 @@
 public class Matrix {
-    private final double[][] elements;
+    private double[][] elements;
     private final int rowCount;
     private final int columnCount;
 
@@ -97,7 +97,7 @@ public class Matrix {
         for (int i = 0; i < rowOrder.length; ++i) {
             for (int j = 0; j < rowOrder.length; ++j) {
                 if (i == rowOrder[j]) {
-                    result.elements[i] = this.elements[j];
+                    result.elements[j] = this.elements[i];
                     break;
                 }
             }
@@ -121,5 +121,47 @@ public class Matrix {
             }
             System.out.print("\n");
         }
+    }
+
+    public void set(int i, int j, double num) throws Exception {
+        if (i >= getRowCount() || j >= getColumnCount()) throw new Exception("wrong index");
+        elements[i][j] = num;
+    }
+
+    public double get(int i, int j) throws Exception {
+        if (i >= getRowCount() || j >= getColumnCount()) throw new Exception("wrong index");
+        return elements[i][j];
+    }
+
+    public double[] getDiagonalElements() {
+        double[] diagonals = new double[getRowCount()];
+        for (int i = 0; i < getRowCount(); ++i) {
+            diagonals[i] = elements[i][i];
+        }
+
+        return diagonals;
+    }
+
+    public Matrix copy() {
+        Matrix newMatrix = new Matrix(getRowCount(), getColumnCount());
+        for (int i = 0; i < getRowCount(); ++i) {
+            if (getColumnCount() >= 0) System.arraycopy(elements[i], 0, newMatrix.elements[i], 0, getColumnCount());
+        }
+
+        return newMatrix;
+    }
+
+    public double[][] getElements() {
+        return elements;
+    }
+
+    public double getMaxElement() {
+        double max = Double.MIN_VALUE;
+        for (int i = 0; i < getRowCount(); ++i) {
+            for (int j = 0; j < getColumnCount(); ++j) {
+                if (elements[i][j] > max) max = elements[i][j];
+            }
+        }
+        return max;
     }
 }
