@@ -1,3 +1,6 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -7,6 +10,12 @@ public class UserInteraction {
     public void interact() {
         System.out.println("Liner system solution finder ");
         LinearSystem system = askForReadingMethod();
+
+        if (system == null) {
+            System.err.println("file read error");
+            return;
+        }
+
         try {
             system.solveUsingGaussSeidelMethod();
         } catch (Exception e) {
@@ -42,6 +51,13 @@ public class UserInteraction {
 
     private double[] parseDoubleArray() {
         String userInput = scanner.nextLine();
+        userInput = userInput.strip();
+        String[] splittedUserInput = userInput.split(" ");
+        return Arrays.stream(splittedUserInput).mapToDouble(Double::parseDouble).toArray();
+    }
+
+    private double[] parseDoubleArray(BufferedReader reader) throws IOException {
+        String userInput = reader.readLine();
         userInput = userInput.strip();
         String[] splittedUserInput = userInput.split(" ");
         return Arrays.stream(splittedUserInput).mapToDouble(Double::parseDouble).toArray();
@@ -127,6 +143,40 @@ public class UserInteraction {
     }
 
     private LinearSystem readLinearSystemFromFile() {
-        return null;
+        System.out.println("Please enter file name (file name should be without any white characters:");
+        String filename = scanner.next();
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            int size = Integer.parseInt(reader.readLine());
+            if (size > 20 || size <= 1) {
+                System.err.println("File: invalid matrix size") ;
+                return null;
+            }
+
+            double[][] matrix = new double[size][size];
+
+            for (int i = 0; i < size; ++i) {
+                double[] numbers = parseDoubleArray(reader);
+                if (numbers.length != size) {
+                    System.out.println("File: the number of elements doesn't matches the size of matrix");
+                    return null;
+                }
+                matrix[i] = numbers;
+            }
+
+            double[] freeMembers = parseDoubleArray(reader);
+
+            if (freeMembers.length != size) {
+                System.out.println("The number of elements doesn't matches the size of matrix");
+                return null;
+            }
+            int iterations = Integer.parseInt(reader.readLine());
+            double accuracy = Double.parseDouble(reader.readLine());
+
+            return new LinearSystem(matrix, freeMembers, size, size, iterations, accuracy);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
     }
 }
