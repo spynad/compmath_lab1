@@ -12,7 +12,7 @@ public class UserInteraction {
         LinearSystem system = askForReadingMethod();
 
         if (system == null) {
-            System.err.println("file read error");
+            System.err.println("Cannot read from file");
             return;
         }
 
@@ -39,10 +39,10 @@ public class UserInteraction {
                     case 2:
                         return readLinearSystemFromFile();
                     default:
-                        System.out.println("Invalid option");
+                        System.out.println("Unknown method");
                 }
             } catch (Exception e) {
-                System.out.println("not a number");
+                System.out.println("Not a number.");
             }
         }
 
@@ -123,19 +123,19 @@ public class UserInteraction {
                 iterations = Integer.parseInt(scanner.next());
                 scanner.skip("\n");
             } catch (Exception e) {
-                System.out.println("not a number");
+                System.out.println("Not a number.");
             }
         }
 
-        double accuracy = .0;
+        double accuracy = 1;
 
-        while (accuracy == .0) {
+        while (accuracy >= 1 || accuracy <= 0.00001) {
             try {
-                System.out.println("Please enter accuracy:");
+                System.out.println("Please enter accuracy [0.00001; 1]:");
                 accuracy = Double.parseDouble(scanner.next());
                 scanner.skip("\n");
             } catch (Exception e) {
-                System.out.println("not a number");
+                System.out.println("Not a number.");
             }
         }
 

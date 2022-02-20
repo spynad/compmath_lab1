@@ -21,7 +21,7 @@ public class LinearSystem {
     public void solveUsingGaussSeidelMethod() {
         try {
             int [] rowOrder = coefficients.checkDiagonal();
-            if (rowOrder == null) throw new Exception("cant solve");
+            if (rowOrder == null) throw new Exception("Cannot solve this linear system: diagonal predominance cannot be achieved");
             coefficients = coefficients.changeRows(rowOrder);
             freeMembers = freeMembers.changeRows(rowOrder);
             Matrix C = new Matrix(coefficients.getRowCount(), coefficients.getColumnCount());
@@ -50,7 +50,7 @@ public class LinearSystem {
             int k = 0;
             do {
                 if (k > iterations) {
-                    System.out.println("Итерации расходятся");
+                    System.out.println("Cannot solve this linear system: Iterations diverge");
                     return;
                 }
                 delta = 0;
@@ -73,7 +73,8 @@ public class LinearSystem {
             System.out.println("Vector of solutions:");
             iter.printMatrix();
             System.out.println("Iterations count: " + k);
-            System.out.println("Err: " + errors.getMaxElement());
+            System.out.println("Error vector: " );
+            errors.printMatrix();
 
 
         } catch (Exception e) {
